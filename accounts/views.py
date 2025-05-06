@@ -7,14 +7,10 @@ from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 from rest_framework_simplejwt.tokens import RefreshToken
 from .serializers import CustomUserSerializer
-from .models import CustomUser, Skill, Language
+from .models import CustomUser
 from django.contrib.auth import authenticate
 from rest_framework.permissions import IsAuthenticated
 from django.utils import timezone
-from review.models import Review
-from review.serializers import ReviewSerializer
-from wallet.models import Transaction, Wallet
-from wallet.serializers import TransactionSerializer
 from rest_framework import permissions
 from django.conf import settings
 from django.shortcuts import get_object_or_404
