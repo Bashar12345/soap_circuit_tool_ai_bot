@@ -21,10 +21,6 @@ class UserSerializer(serializers.ModelSerializer):
         )
         return user
     
-class GenerateTemplateSerializer(serializers.Serializer):
-    user_input = serializers.CharField(required=True)
-    
-    
 
 
 class ResetPasswordSerializer(serializers.Serializer):
@@ -58,3 +54,10 @@ class SetNewPasswordSerializer(serializers.Serializer):
             return attrs
         except Exception as e:
             raise serializers.ValidationError("Invalid token or user.")
+        
+        
+class Ai_botSerializer(serializers.Serializer):
+    question = serializers.CharField(required=False)
+    image = serializers.ImageField(required=False)
+    
+    

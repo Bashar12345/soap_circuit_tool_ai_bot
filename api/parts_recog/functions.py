@@ -20,6 +20,7 @@ def process_image_and_text(image_path, question):
     """Process image and provide text-based response from OpenAI API."""
     # if not os.path.exists(image_path):
     #     return "Image file not found."
+    base64_image=""
 
     if os.path.exists(image_path):
     # Encode the image to base64

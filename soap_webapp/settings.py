@@ -137,11 +137,22 @@ MEDIA_ROOT = BASE_DIR / 'media/images'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # settings.py
+# AUTH_USER_MODEL = 'accounts.CustomUser'
 AUTH_USER_MODEL = 'accounts.CustomUser'
-
 # CORS settings
 CORS_ALLOWED_ORIGINS = [
     "http://*",
     "http://localhost:5173",
     "http://127.0.0.1:3000",
 ]   
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    # 'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+
+}

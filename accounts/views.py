@@ -35,16 +35,16 @@ def signup(request):
         user = serializer.save()
         user.is_active = False
 
-        otp_string = create_otp()
-        email_subject = "Confirm Your Email"
-        email_body = render_to_string('confirm_email.html', {'OTP': otp_string})
-        email = EmailMultiAlternatives(email_subject, '', to=[user.email])
-        email.attach_alternative(email_body, "text/html")
-        email.send()
+        # otp_string = create_otp()
+        # email_subject = "Confirm Your Email"
+        # email_body = render_to_string('confirm_email.html', {'OTP': otp_string})
+        # email = EmailMultiAlternatives(email_subject, '', to=[user.email])
+        # email.attach_alternative(email_body, "text/html")
+        # email.send()
 
-        user.otp = otp_string
+        # user.otp = otp_string
         user.save()
-        wallet = Wallet.objects.create(user=user)
+        # wallet = Wallet.objects.create(user=user)
         return Response({"message": "A confirmation email has been sent to your inbox."}, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -110,7 +110,7 @@ def login(request):
     email = request.data.get('email')
     password = request.data.get('password')
     user = authenticate(email=email, password=password)
-
+    print("email:" ,email, "password", password) 
     if user:
         refresh = RefreshToken.for_user(user)
         return Response({
