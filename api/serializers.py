@@ -58,6 +58,6 @@ class SetNewPasswordSerializer(serializers.Serializer):
         
 class Ai_botSerializer(serializers.Serializer):
     question = serializers.CharField(required=False)
-    image = serializers.ImageField(required=False)
+    image_path = serializers.CharField(max_length=255, required=False, allow_blank=True)
     
     
