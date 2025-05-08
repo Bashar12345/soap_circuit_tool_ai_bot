@@ -121,6 +121,7 @@ def conversation_context(user_id=None, max_history=5):
     if user_id:
         query = query.filter(user_id=user_id)
     history = query.order_by('-timestamp')[:max_history][::-1] 
+    # print(history)
     
     if not history:
         return "No prior conversation history available."

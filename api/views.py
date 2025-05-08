@@ -22,10 +22,11 @@ class Ai_bot(APIView):
             if not question.strip():
                 question = "What is this component?"            
                 
-            # Get user_id from session
-            user_id = request.session.session_key or 'anonymous'
+            if not request.session.session_key:
+                request.session.create()
+                request.session.save()
+            user_id = request.session.session_key   # or 'anonymous'
             
-            # Process the request with or without image
             result = process_image_and_text(image_path, question, user_id=user_id)
             return Response({'result': result}, status=200)
         except Exception as e:
