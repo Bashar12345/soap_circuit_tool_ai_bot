@@ -16,6 +16,9 @@ class Ai_bot(APIView):
         try:
             image_path = serializer.validated_data.get('image_path', '')  # Default to empty string
             question = serializer.validated_data['question']              # type: ignore
+            
+            # print("image", image_path)
+            # print("question", question)
             if not question.strip():
                 question = "What is this component?"            
                 
