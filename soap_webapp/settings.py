@@ -55,6 +55,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -151,12 +152,19 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # settings.py
 # AUTH_USER_MODEL = 'accounts.CustomUser'
 AUTH_USER_MODEL = 'accounts.CustomUser'
-# CORS settings
+
 CORS_ALLOWED_ORIGINS = [
-    "http://*",
-    "http://localhost:5173",
-    "http://127.0.0.1:3000",
-]   
+    "http://localhost:5174",
+    "http://localhost:5173", 
+]
+
+
+CORS_ALLOW_CREDENTIALS = True
+
+
+
+
+
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -168,3 +176,12 @@ REST_FRAMEWORK = {
     # 'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 
 }
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'jvaichatgpt@gmail.com'  # Your Gmail address
+EMAIL_HOST_PASSWORD = 'your-email-password'  # Your Gmail app password
+DEFAULT_FROM_EMAIL = 'jvaichatgpt@gmail.com'

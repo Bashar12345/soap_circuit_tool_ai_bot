@@ -67,7 +67,7 @@ static/
 media/
 
 # Local settings
-local_settings.py
+# local_settings.py
 
 # Celery beat schedule file
 celerybeat-schedule

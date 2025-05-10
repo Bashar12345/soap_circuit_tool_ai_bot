@@ -34,3 +34,6 @@ class Ai_bot(APIView):
                 'error': 'Server error',
                 'details': str(e)
             }, status=500)
+            
+            
+            

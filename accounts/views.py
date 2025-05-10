@@ -9,11 +9,15 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from .serializers import CustomUserSerializer
 from .models import CustomUser
 from django.contrib.auth import authenticate
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from django.utils import timezone
 from rest_framework import permissions
 from django.conf import settings
 from django.shortcuts import get_object_or_404
+from django.contrib.auth.tokens import PasswordResetTokenGenerator
+from django.utils.encoding import force_bytes, force_str
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from rest_framework.views import APIView
 
 
 def create_otp():
@@ -257,3 +261,85 @@ def delete_user(request):
         return Response({'message': 'User deleted successfully.'}, status=status.HTTP_204_NO_CONTENT)
     except Exception as e:
         return Response({'detail': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+# class view 
+    
+    
+    
+from django.core.mail import send_mail
+
+class RequestPasswordReset(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        email = request.data.get('email')
+        if not email:
+            return Response({"error": "Email is required."}, status=400)
+
+        try:
+            user = CustomUser.objects.get(email=email)
+        except CustomUser.DoesNotExist:
+            return Response({"error": "User with this email does not exist."}, status=404)
+
+        # Generate reset token
+        uidb64 = urlsafe_base64_encode(force_bytes(user.pk))
+        token = PasswordResetTokenGenerator().make_token(user)
+
+        # Construct reset URL
+        reset_url = f"{settings.Base_URL}/reset-password/{uidb64}/{token}/"
+
+        # Send email
+        email_body = f"Hello {user.username},\n\nUse the link below to reset your password:\n{reset_url}"
+        send_mail(
+            subject="Password Reset",
+            message=email_body,
+            from_email="your-email@gmail.com",
+            recipient_list=[email],
+        )
+        return Response({"message": "Password reset email sent."}, status=200)
+    
+    
+class SetNewPassword(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        uidb64 = request.data.get('uidb64')
+        token = request.data.get('token')
+        password = request.data.get('password')
+
+        if not uidb64 or not token or not password:
+            return Response({"error": "Missing required fields (uidb64, token, password)."}, status=400)
+
+        try:
+            # Decode the user ID
+            uid = force_str(urlsafe_base64_decode(uidb64))
+            user = CustomUser.objects.get(pk=uid)
+
+            # Validate the token
+            if not PasswordResetTokenGenerator().check_token(user, token):
+                return Response({"error": "Invalid token."}, status=400)
+
+            # Set the new password
+            user.set_password(password)
+            user.save()
+            return Response({"message": "Password reset successful."}, status=200)
+
+        except Exception as e:
+            return Response({"error": "An error occurred while resetting the password."}, status=400)
+        
+        
+        
+        
+        
