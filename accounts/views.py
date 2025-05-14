@@ -37,7 +37,7 @@ def signup(request):
     serializer = CustomUserSerializer(data=request.data)
     if serializer.is_valid():
         user = serializer.save()
-        user.is_active = False
+        user.is_active = True
 
         # otp_string = create_otp()
         # email_subject = "Confirm Your Email"
@@ -147,6 +147,7 @@ def custom_token_refresh(request):
 def logout(request):
     """Blacklist the refresh token to log out the user."""
     refresh_token = request.data.get("refresh_token")
+    print("refresh_token :--", refresh_token)
     if not refresh_token:
         return Response({"error": "Refresh token is required"}, status=status.HTTP_400_BAD_REQUEST)
 
