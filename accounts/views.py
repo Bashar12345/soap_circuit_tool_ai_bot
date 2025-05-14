@@ -33,11 +33,10 @@ def create_otp():
 @api_view(['POST'])
 @permission_classes([])
 def signup(request):
-    """Handle user signup and send OTP for email verification."""
     serializer = CustomUserSerializer(data=request.data)
     if serializer.is_valid():
         user = serializer.save()
-        user.is_active = True
+        # user.is_active = True
 
         # otp_string = create_otp()
         # email_subject = "Confirm Your Email"
@@ -49,7 +48,9 @@ def signup(request):
         # user.otp = otp_string
         user.save()
         # wallet = Wallet.objects.create(user=user)
-        return Response({"message": "A confirmation email has been sent to your inbox."}, status=status.HTTP_201_CREATED)
+        # return Response({"message": "A confirmation email has been sent to your inbox."}, status=status.HTTP_201_CREATED)
+        return Response({"message": "User registered successfully."}, status=status.HTTP_201_CREATED)
+
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -111,14 +112,16 @@ def activate(request):
 @api_view(['POST'])
 @permission_classes([])
 def login(request):
-    email = request.data.get('email')
+    # email = request.data.get('email')
+    username = request.data.get('username')
     password = request.data.get('password')
-    user = authenticate(email=email, password=password)
-    print("email:" ,email, "password", password) 
+    user = authenticate( username=username,password=password)  #email=email,
+    print("username:" ,username, "password", password) 
     if user:
         refresh = RefreshToken.for_user(user)
         return Response({
-            'email': user.email,
+            # 'email': user.email,
+            'username': user.username,
             'access_token': str(refresh.access_token),
             'refresh_token': str(refresh),
         }, status=status.HTTP_200_OK)
@@ -266,15 +269,58 @@ def delete_user(request):
     
     
     
+# @api_view(['POST'])
+# @permission_classes([IsAuthenticated])
+# def get_user_details(request):  
+#     username = request.data.get('username')
+#     print(username)
+#     if not username:
+#         return Response({'detail': 'username is required.'}, status=status.HTTP_400_BAD_REQUEST)
+    
+#     try:
+#         user = CustomUser.objects.get(username=username)
+#         print(user)
+#         user_details = {
+#             "username": user.username,
+#             "name": user.name,
+#             "image": user.image.url if user.image else None,
+#             "is_active": user.is_active,
+#             "is_staff": user.is_staff,
+#             "created_at": user.created_at,
+#         }
+#         return Response(user_details, status=status.HTTP_200_OK)
+#     except CustomUser.DoesNotExist:
+#         return Response({'detail': 'User not found.'}, status=status.HTTP_404_NOT_FOUND)
     
     
     
     
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def get_user_details(request):  
+    username = request.data.get('username', '').strip()  # Strip whitespace
+    print(f"Received username: {username}")
+    if not username:
+        return Response({'detail': 'username is required.'}, status=status.HTTP_400_BAD_REQUEST)
     
-    
-    
-    
-    
+    try:
+        # Case-insensitive lookup
+        user = CustomUser.objects.get(username__iexact=username)
+        print(f"Found user: {user}")
+        user_details = {
+            "username": user.username,
+            "name": user.name,
+            "image": user.image.url if user.image else None,
+            "is_active": user.is_active,
+            "is_staff": user.is_staff,
+            "created_at": user.created_at,
+        }
+        return Response(user_details, status=status.HTTP_200_OK)
+    except CustomUser.DoesNotExist:
+        return Response({'detail': 'User not found.'}, status=status.HTTP_404_NOT_FOUND)
+
+
+
 # class view 
     
     

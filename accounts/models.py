@@ -26,8 +26,8 @@ class CustomUser(AbstractUser):
     #     ('strategist', 'Strategist'),
     # ]
 
-    username = models.CharField(max_length=150) 
-    email = models.EmailField(unique=True)
+    username = models.CharField(max_length=150, unique=True) 
+    email = models.EmailField(blank=True, null=True)
     
     image = models.ImageField(upload_to='users_images/', blank=True, null=True)
     name = models.CharField(max_length=255, blank=True, null=True)
@@ -42,7 +42,7 @@ class CustomUser(AbstractUser):
     
     # stripe_customer_id = models.CharField(max_length=255, blank=True, null=True)
 
-    USERNAME_FIELD = "email"
+    # USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
 
     objects = CustomUserManager()

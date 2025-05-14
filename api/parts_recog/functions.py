@@ -22,16 +22,12 @@ def process_image_and_text(image_path, question, user_id=None):
         - Analyze the image and identify **only** diesel or steam engine components specific to ships.
         - Output a single-line component description in markdown code blocks, including type and specifications (if identifiable), e.g., `BOLT, HEX, 2 IN DIA X 6 5/8 IN LG`, `MOTOR, 440V, 92A, 56.5KW, 60HZ, IP 54, 3565 RPM`.
         - If the image is unrelated, respond with:
-          ```
           This image is outside my expertise. Please upload an image of diesel or steam engine components.
-          ```
         - **One-Shot Example**:
           **Image Input**: 
           The image shows a close-up of a person's hand holding a circular rubber or elastomeric seal or gasket. This component appears to be an oil seal or shaft seal, typically used to prevent the leakage of fluids along a rotating shaft. The numbers and letters embossed on the seal might be part numbers, manufacturer codes, or size specifications.
           **Output**:
-          ```
-          SEAL, RUBBER, OIL SEAL
-          ```
+            SEAL, RUBBER, OIL SEAL
         ### Conversation Context
         {context}
         """
