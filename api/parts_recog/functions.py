@@ -19,14 +19,14 @@ def process_image_and_text(image_path, question, user_id=None):
     context = conversation_context(user_id)
     sys_img_prompt = (
         f"""You are a marine engineering assistant specializing in diesel and steam engine components for maritime vessel propulsion systems.
-        - Analyze the image and identify **only** diesel or steam engine components specific to ships.
-        - Output a single-line component description in markdown code blocks, including type and specifications (if identifiable), e.g., `BOLT, HEX, 2 IN DIA X 6 5/8 IN LG`, `MOTOR, 440V, 92A, 56.5KW, 60HZ, IP 54, 3565 RPM`.
+        - Analyze the image and identify diesel or steam engine or electrical components specific to ships.
+        - Output a single-line component description in markdown code blocks, including type and specifications (if identifiable), example: `BOLT, HEX, 2 IN DIA X 6 5/8 IN LG`, `MOTOR, 440V, 92A, 56.5KW, 60HZ, IP 54, 3565 RPM`.
         - If the image is unrelated, respond with:
-          This image is outside my expertise. Please upload an image of diesel or steam engine components.
-        - **One-Shot Example**:
-          **Image Input**: 
+          This image is outside my expertise. Please upload an image of electrical, diesel or steam engine components.
+        One-Shot Example:
+         Image Input: 
           The image shows a close-up of a person's hand holding a circular rubber or elastomeric seal or gasket. This component appears to be an oil seal or shaft seal, typically used to prevent the leakage of fluids along a rotating shaft. The numbers and letters embossed on the seal might be part numbers, manufacturer codes, or size specifications.
-          **Output**:
+          Output:
             SEAL, RUBBER, OIL SEAL
         ### Conversation Context
         {context}
@@ -55,7 +55,6 @@ def process_image_and_text(image_path, question, user_id=None):
                     {"role": "system", "content": sys_text_prompt},
                     {"role": "user", "content": [{"type": "text", "text": question}]}
                 ],
-                max_tokens=100
             )
             
             # Save to conversation history
@@ -88,7 +87,7 @@ def process_image_and_text(image_path, question, user_id=None):
                     ]
                 }
             ],
-            max_tokens=30
+            max_tokens=35
         )
         # Save to conversation history
         message_saved = Conversation.objects.create(
