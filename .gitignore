@@ -80,3 +80,24 @@ celerybeat-schedule
 *.sqlite3-journal
 migrations/
 
+images/1000001744.jpg
+images/1000002140.jpg
+images/1000002286.jpg
+images/1000002388.jpg
+images/1000002410.jpg
+images/1000002592.heic
+images/1000002662.heic
+images/1000002727.jpg
+images/1000002775.jpg
+images/1000002862.heic
+images/1000002921.heic
+images/1000003492.jpg
+images/1000003594.jpg
+images/1000003598.jpg
+images/1000003871.jpg
+images/1000003875.jpg
+images/1000003877.jpg
+images/1000003912.jpg
+images/1000004109.jpg
+images/1000004402.jpg
+api/-- SQLite.sql

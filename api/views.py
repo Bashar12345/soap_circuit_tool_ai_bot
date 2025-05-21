@@ -35,6 +35,12 @@ class Ai_bot(APIView):
             print("image_path", image_path)
 
             result = process_image_and_text(image_path, question, user_id=user_id)
+            
+            # Remove the image file after processing
+            if image_path and os.path.exists(image_path):
+                os.remove(image_path)
+                print(f"Image file '{image_path}' has been deleted.")
+            
             return Response({'result': result}, status=200)
 
         except Exception as e:
